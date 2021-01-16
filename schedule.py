@@ -1,5 +1,6 @@
 import datetime
 from module import Module
+from assigned_module import AssignedModule
 
 
 class Schedule:
@@ -7,7 +8,7 @@ class Schedule:
         self.schedule_dict = {}
 
     def add_module(self, date: datetime.datetime, module: Module):
-        self.schedule_dict[date] = module
+        self.schedule_dict[date] = AssignedModule(module)
 
     def show_tasks(self):
         time_list = list(self.schedule_dict.keys())

@@ -3,7 +3,6 @@ class Task:
         self.name = name
         self.image = image
         self.description = description
-        self.is_done = False
 
     def stringify_task(self):
         string_image = str(self.image) if self.image is not None else ""
