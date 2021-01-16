@@ -1,6 +1,11 @@
+from schedule import Schedule
+from module import Module
+
+
 class ParentInterface:
-    def __init__(self, schedule):
-        self.schedule = schedule
+    def __init__(self, available_modules: list):
+        self.schedule = Schedule()
+        self.available_modules = available_modules
 
     def program_loop(self):
         exit_program = True
@@ -17,8 +22,9 @@ class ParentInterface:
 
 
 class ChildInterface:
-    def __init__(self, schedule):
-        self.schedule = schedule
+    def __init__(self, available_modules: list):
+        self.schedule = Schedule()
+        self.available_modules = available_modules
 
     def program_loop(self):
         exit_program = True
