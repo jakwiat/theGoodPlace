@@ -1,13 +1,63 @@
 from schedule import Schedule
 from module import Module
+from task import Task
+from utils import input_number
 import datetime
 import os
 
+# TODO secure inputs from warnings
 class ParentInterface:
     def __init__(self, available_modules: list):
         self.schedule = Schedule()
         self.available_modules = available_modules
-    # TODO
+
+    def edit_module(self):
+        print("Jakie zadanie chcesz edytować? (podaj numer od 1 do " + str(len(self.available_modules)) + ")")
+        chosen_module = -1
+        while chosen_module not in range(1, len(self.available_modules) + 1):
+            chosen_module = input_number(">> ")
+        chosen_module -= 1
+        self.available_modules[chosen_module].print_module()
+        print("Chcesz dodać nową nazwę? (t, n)")
+        edit = 'z'
+        while edit not in ['t', 'n']:
+            edit = input(">> ")
+        if edit == 't':
+            self.available_modules[chosen_module].name = input("Wprowadź nazwę\n>> ")
+        print("Chcesz dodać nowy obraz? (t, n)")
+        edit = 'z'
+        while edit not in ['t', 'n']:
+            edit = input(">> ")
+        if edit == 't':
+            self.available_modules[chosen_module].image = input("Wprowadź link do obrazu\n>> ")
+        print("Chcesz dodać nowy opis? (t, n)")
+        edit = 'z'
+        while edit not in ['t', 'n']:
+            edit = input(">> ")
+        if edit == 't':
+            self.available_modules[chosen_module].description = input("Wprowadź opis\n>> ")
+
+    def add_module(self):
+        name = input("Wprowadź nazwę\n>> ")
+        image = input("Wprowadź link do obrazu\n>> ")
+        description = input("Wprowadź opis\n>> ")
+        print("Ile kroków chcesz dodać do zadania?")
+        num = input_number(">> ")
+        tasks = []
+        for i in range(num):
+            nam = input("Wprowadź nazwę kroku\n>> ")
+            imag = input("Wprowadź link do obrazu\n>> ")
+            descript = input("Wprowadź opis\n>> ")
+            tasks.append(Task(nam, imag, descript))
+        self.available_modules.append(Module(tasks, name, image, description))
+
+    def delete_module(self):
+        print("Jakie zadanie chcesz usunąć? (podaj numer od 1 do " + str(len(self.available_modules)) + ")")
+        chosen_module = -1
+        while chosen_module not in range(1, len(self.available_modules) + 1):
+            chosen_module = input_number(">> ")
+        chosen_module -= 1
+        del self.available_modules[chosen_module]
 
     def create_module_view(self, clear, chosen_date, order):
         clear()
@@ -24,8 +74,8 @@ class ParentInterface:
             if counter == 0:
                 return
             else:
-                counter = int(input("\nPamiętaj, że nowe zadania możesz tworzyć w bibliotece zadań.\nWybierz numer od "
-                                  "1 do " + str(len(self.available_modules)) + ": "))
+                counter = input_number("\nPamiętaj, że nowe zadania możesz tworzyć w bibliotece zadań.\nWybierz numer od "
+                                  "1 do " + str(len(self.available_modules)) + ": ")
         counter -= 1
         self.schedule.add_module(chosen_date, self.available_modules[counter], order)
         return
@@ -38,14 +88,14 @@ class ParentInterface:
         chosen_date = None
         menu_option = -1
         while menu_option not in range(1, 3):
-            menu_option = int(input(">> "))
+            menu_option = input_number(">> ")
             if menu_option == 1:
                 chosen_date = datetime.date.today()
             if menu_option == 2:
                 clear()
-                day = int(input("Podaj dzień: "))
-                month = int(input("Podaj miesiąc: "))
-                year = int(input("Podaj rok: "))
+                day = input_number("Podaj dzień: ")
+                month = input_number("Podaj miesiąc: ")
+                year = input_number("Podaj rok: ")
                 chosen_date = datetime.date(year, month, day)
         clear()
         print("<< Wciśnij 0 by wrócić\n")
@@ -57,14 +107,14 @@ class ParentInterface:
         print("2. Przejdź do widoku miesiąca")
         menu_option = -1
         while menu_option not in range(0, 3):
-            menu_option = int(input(">> "))
+            menu_option = input_number(">> ")
             if menu_option == 1:
                 order = 0
                 length_l = len(self.schedule.schedule_dict[chosen_date]) if chosen_date in self.schedule.schedule_dict else 0
                 if length_l < 1:
                     order = 1
                 while order not in range(1, length_l + 2):
-                    order = int(input("Podaj, na którym miejscu ma pojawić się nowe zadanie (od 1 do " + str(length_l) + ": "))
+                    order = input_number("Podaj, na którym miejscu ma pojawić się nowe zadanie (od 1 do " + str(length_l) + ": ")
                 self.create_module_view(clear, chosen_date, order)
                 return
             if menu_option == 2:
@@ -85,15 +135,13 @@ class ParentInterface:
         print("3. Usuń zadanie")
         menu_option = -1
         while menu_option not in range(0, 4):
-            menu_option = int(input(">> "))
+            menu_option = input_number(">> ")
             if menu_option == 1:
-                # TODO edycja
-                pass
+                self.edit_module()
             if menu_option == 2:
-                # TODO dodanie
-                pass
+                self.add_module()
             if menu_option == 3:
-                # TODO usuwanie
+                self.delete_module()
                 pass
             if menu_option == 0:
                 return
@@ -109,7 +157,7 @@ class ParentInterface:
             print("3. Biblioteka zadań")
             print("4. Podsumowanie")
             print("5. Zakończ program")
-            menu_option = int(input(">> "))
+            menu_option = input_number(">> ")
             if menu_option == 1:
                 self.calendar_view(clear)
             if menu_option == 2:
@@ -144,6 +192,6 @@ class ChildInterface:
             print("3. Wyświetl zadania")
             print("4. Oznacz zadanie jako wykonane")
             print("5. Zakończ program")
-            menu_option = int(input(">> "))
+            menu_option = input_number(">> ")
             if menu_option == 5:
                 exit_program = False
