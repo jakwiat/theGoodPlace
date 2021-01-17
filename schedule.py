@@ -63,3 +63,20 @@ class Schedule:
             self.current_task_key = 0
         else:
             self.current_task_key = None
+
+    def get_done_tasks(self):
+        done_tasks = {}
+        time_list = list(self.schedule_dict.keys())
+        time_list.sort()
+        for date in time_list:
+            if date < self.today:
+                done_tasks[date] = []
+                for task in self.schedule_dict[date]:
+                    done_tasks[date].append(task)
+            elif date == self.today:
+                if self.current_task_key is None or self.current_task_key != 0:
+                    done_tasks[date] = []
+                    for task in self.schedule_dict[date]:
+                        if task.is_done is True:
+                            done_tasks[date].append(task)
+        return done_tasks
