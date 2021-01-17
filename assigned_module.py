@@ -15,7 +15,10 @@ class AssignedModule:
 
     def print_module_child(self, param=""):
         print("+---------------------------------")
-        print("|\n|  " + param + " " + self.module.name)
+        if self.is_done:
+            print("|\n|  " + param + " " + self.module.name + " - ZROBIONE")
+        else:
+            print("|\n|  " + param + " " + self.module.name)
         print("|")
 
     def make_progress(self):

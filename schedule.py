@@ -59,6 +59,9 @@ class Schedule:
                     self.current_module += 1
                 else:
                     self.current_module = None
+                return True
+            else:
+                return False
 
     def update_today(self, today: datetime.date):
         self.today = today
@@ -74,12 +77,12 @@ class Schedule:
         for date in time_list:
             if date < self.today:
                 done_modules[date] = []
-                for modules in self.schedule_dict[date]:
-                    done_modules[date].append(modules)
+                for module in self.schedule_dict[date]:
+                    done_modules[date].append(module)
             elif date == self.today:
                 if self.current_module is None or self.current_module != 0:
                     done_modules[date] = []
-                    for modules in self.schedule_dict[date]:
-                        if modules.is_done is True:
-                            done_modules[date].append(modules)
+                    for module in self.schedule_dict[date]:
+                        if module.is_done is True:
+                            done_modules[date].append(module)
         return done_modules

@@ -4,8 +4,30 @@ from task import Task
 from utils import input_number
 import datetime
 import os
+FULL_SCREEN_UPPER = "+------------------------------------------+\n" \
+                    "|         SYMULACJA PEŁNEGO EKRANU         |\n" \
+                    "|                                          |\n" \
+                    "|                                          |\n" \
+                    "|                                          |"
+FULL_SCREEN_UPPER_done = "+------------------------------------------+\n" \
+                    "|         SYMULACJA PEŁNEGO EKRANU         |\n" \
+                    "|                                          |\n" \
+                    "|              v  WYKONANE! v              |\n" \
+                    "|                                          |"
+FULL_SCREEN_LOWER = "|                                          |\n" \
+                    "|                                          |\n" \
+                    "|                                          |\n" \
+                    "|         MENU TYLKO DO TESTOWANIA:        |\n" \
+                    "| 1 BY COFNĄĆ               2 BY IŚĆ DALEJ |\n" \
+                    "+------------------------------------------+"
+FULL_SCREEN_LOWER_first = "|                                          |\n" \
+                    "|                                          |\n" \
+                    "|                                          |\n" \
+                    "|         MENU TYLKO DO TESTOWANIA:        |\n" \
+                    "|                           2 BY IŚĆ DALEJ |\n" \
+                    "+------------------------------------------+"
+FULL_SCREEN_COUNT = 44
 
-# TODO secure inputs from warnings
 class ParentInterface:
     def __init__(self, available_modules: list, available_awards: list):
         self.schedule = Schedule(available_awards)
@@ -198,14 +220,59 @@ class ChildInterface:
         self.available_modules = available_modules
         self.available_awards = available_awards
 
+    def enter_task(self, clear, today, first_task=True, nav=0):
+        clear()
+        assigned_module_entered = self.schedule.schedule_dict[today][self.schedule.current_module]
+        task_name = assigned_module_entered.module.tasks_list[nav].name
+        task_img_url = assigned_module_entered.module.tasks_list[nav].image
+        task_done = False
+        reprint = True
+        while reprint:
+            if nav < assigned_module_entered.which_task_to_do:
+                task_done = True
+            if task_done:
+                print(FULL_SCREEN_UPPER_done)
+            else:
+                print(FULL_SCREEN_UPPER)
+            centerer = int((FULL_SCREEN_COUNT - len(task_name))/2)
+            for air in range(0, centerer):
+                if air == (centerer - 3) and first_task == False:
+                    print("<", end="")
+                else:
+                    print(" ", end="")
+            print(task_name + "   >")
+            centerer = int((FULL_SCREEN_COUNT - len(task_img_url)) / 2)
+            for air in range(0, centerer):
+                print(" ", end="")
+            print(task_img_url)
+            if first_task:
+                print(FULL_SCREEN_LOWER_first)
+            else:
+                print(FULL_SCREEN_LOWER)
+            answ = -1
+            while answ not in range(1, 3):
+                answ = input_number(">> ")
+            if answ == 1 and first_task == False:
+                return True # cofa i true reprint
+            elif answ == 2 and task_done == False:
+                if self.schedule.make_progress():
+                    return False  # gdy nie chcemy ponownego wyswietlenia
+                else:
+                    reprint = self.enter_task(clear, today, False, nav + 1)
+            elif answ == 2 and task_done == True:
+                reprint = self.enter_task(clear, today, False, nav + 1)
+                # wyswietlenie next karty bez progresu
+
+
     def program_loop(self):
         exit_program = True
+        clear = lambda: os.system('cls')
         while exit_program is True:
+            clear()
             print("Cześć! :)")
             print("Oto Twoje dzisiejsze wyzwania!", end='\n\n')
             today = datetime.date.today()
-            for module_a in self.schedule.schedule_dict[today]:
-                module_a.module.print_module_child()
+            self.schedule.show_tasks_from_date(today)
             print("+---------------------------------")
             print("\n//do celów testowych: wprowadź 0 by zakończyć, 1 by wejść w zadanie.")
             print("Docelowy interfejs umożliwia wejście jedynie w obszar trofeów i w aktualne zadanie.")
@@ -214,7 +281,8 @@ class ChildInterface:
                 menu_option = input_number(">> ")
                 if menu_option == 0:
                     exit_program = False
-                    pass
                 if menu_option == 1:
-                    # TODO wejdz w taska
-                    pass
+                    self.enter_task(clear, today)
+                    print("Gratulacje! Zadanie wykonane!")
+                    input("\nNaciśnij dowolny klawisz by wrócić.")
+
