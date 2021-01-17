@@ -1,38 +1,15 @@
 import datetime
 from task import Task
 from module import Module
+from award import Award
 from schedule import Schedule
 from interfaces import ParentInterface, ChildInterface
 
 
 if __name__ == "__main__":
-    task = Task("Wash your hands")
-    module = Module([task, Task("Eat dinner")], "Dinner", "image_url", "Short description")
 
-
-    # sheldun.show_tasks_from_month(datetime.date(2020, 5, 1))
-    # print(sheldun.schedule_dict[sheldun.today][sheldun.current_task_key])
-    # sheldun.make_progress()
-    # print(sheldun.schedule_dict[sheldun.today][sheldun.current_task_key])
-    # sheldun.make_progress()
-    # print(sheldun.schedule_dict[sheldun.today][sheldun.current_task_key])
-    # sheldun.make_progress()
-    # print(sheldun.schedule_dict[sheldun.today][sheldun.current_task_key])
-    # sheldun.make_progress()
-    # print(sheldun.schedule_dict[sheldun.today][sheldun.current_task_key])
-    # sheldun.make_progress()
-    # print(sheldun.schedule_dict[sheldun.today][sheldun.current_task_key])
-    # sheldun.make_progress()
-    # print(sheldun.current_task_key)
-    # print(sheldun.schedule_dict[sheldun.today][0].is_done)
-    # print(sheldun.schedule_dict[sheldun.today][0].which_task_to_do)
-    # print(sheldun.get_done_tasks()[datetime.date(2021, 1, 17)][0].award.name)
-    # print(sheldun.get_done_tasks()[datetime.date(2021, 1, 17)][1].award.name)
-    # print(sheldun.get_done_tasks()[datetime.date(2021, 1, 17)][2].award.name)
-    #
-    # x = datetime.date.today()
-    # print(x)
-    # input(">> ")
+    # create default awards
+    award_list = [Award("Złoty medal."), Award("Świetna robota!"), Award("Brawo :)"), Award("Oby tak dalej")]
 
     # create default modules
     lazienka = Task("Idę do łazienki.")
@@ -89,12 +66,15 @@ if __name__ == "__main__":
         Module([lista, buty_on, kurtka_on, klucz, drzwi, sklep, kupuje, place, wracam, kurtka_off, buty_off],
                "Wyjście do sklepu", "image_url", "DEMO: Podstawowe zadanie wyjścia do sklepu."))
 
-    Przyklad = Schedule()
+    Przyklad = Schedule(award_list)
     Przyklad.add_module(datetime.date(2021, 1, 17), default_modules_list[0], 1)
     Przyklad.add_module(datetime.date(2022, 5, 17), default_modules_list[1], 1)
     Przyklad.add_module(datetime.date(2021, 7, 17), default_modules_list[2], 1)
     Przyklad.add_module(datetime.date(2021, 1, 17), default_modules_list[3], 2)
     Przyklad.add_module(datetime.date(2021, 1, 17), default_modules_list[4], 1)
+
+    for i in range(11):
+        Przyklad.make_progress()
 
     # start of app
     print("Witaj w aplikacji Codzienne Wyzwania! Mamy nadzieję, że masz się dobrze :)")
@@ -102,9 +82,9 @@ if __name__ == "__main__":
     print("Czy aplikacja ma przyjąć tryb dziecka (d) czy rodzica (r)?")
     user = input(">> ")
     if user == 'd':
-        interface = ChildInterface(default_modules_list)
-        interface.schedule = Przyklad
+        interface = ChildInterface(default_modules_list, award_list)
     elif user == 'r':
-        interface = ParentInterface(default_modules_list)
+        interface = ParentInterface(default_modules_list, award_list)
+    interface.schedule = Przyklad
     interface.program_loop()
 
