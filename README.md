@@ -15,6 +15,11 @@ Rozwiązanie, przygotowane w pełni w języku Python, ma postać tekstowej aplik
 
 Każde zadanie, krok i nagroda mają docelowo przypisane media - obrazek, w późniejszym etapie również dźwięk
 
+W celu zobrazowania pełnego działania aplikacji, przygotowany został zestaw danych początkowych, wczytywany na początku programu, zawierający:
+- gotowe do użycia szablony zadań, zawierające w pełni rozpisane kroki
+- przykładowe nagrody, przyjmujące postać krótkiego tekstu
+- przygotowany harmonogram złożony z kilku aktywności, w tym jednej na start ukończonej
+
 Dane techniczne:
 - Python 3.7
 - wykorzystane biblioteki: datetime, os, random
