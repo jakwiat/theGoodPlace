@@ -15,3 +15,5 @@ class AssignedModule:
         self.which_task_to_do += 1
         if self.which_task_to_do == self.how_many_tasks:
             self.is_done = True
+            return True
+        return False
