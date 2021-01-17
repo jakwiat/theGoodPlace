@@ -29,12 +29,14 @@ FULL_SCREEN_LOWER_first = "|                                          |\n" \
 FULL_SCREEN_COUNT = 44
 
 class ParentInterface:
+    # strona rodzica
     def __init__(self, available_modules: list, available_awards: list):
         self.schedule = Schedule(available_awards)
         self.available_modules = available_modules
         self.available_awards = available_awards
 
     def edit_module(self):
+        # edytuj moduł (czyli "duże" zadanie)
         print("Jakie zadanie chcesz edytować? (podaj numer od 1 do " + str(len(self.available_modules)) + ")")
         chosen_module = -1
         while chosen_module not in range(1, len(self.available_modules) + 1):
@@ -61,6 +63,7 @@ class ParentInterface:
             self.available_modules[chosen_module].description = input("Wprowadź opis\n>> ")
 
     def add_module(self):
+        # dodaj zadanie do biblioteki
         name = input("Wprowadź nazwę\n>> ")
         image = input("Wprowadź link do obrazu\n>> ")
         description = input("Wprowadź opis\n>> ")
@@ -75,6 +78,7 @@ class ParentInterface:
         self.available_modules.append(Module(tasks, name, image, description))
 
     def delete_module(self):
+        #usunięcie zadania z biblioteki
         print("Jakie zadanie chcesz usunąć? (podaj numer od 1 do " + str(len(self.available_modules)) + ")")
         chosen_module = -1
         while chosen_module not in range(1, len(self.available_modules) + 1):
@@ -83,6 +87,8 @@ class ParentInterface:
         del self.available_modules[chosen_module]
 
     def create_assigned_module_view(self, clear, chosen_date, order):
+        # kreator nowego zadania z datą, czyli utworzenie obiektu zadania "wykonywalnego"
+        # na podstawie zadań z biblioteki
         clear()
         print("<< Wciśnij 0 by wrócić\n")
         print("Utwórz nowe zadanie.")
@@ -104,6 +110,7 @@ class ParentInterface:
         return
 
     def calendar_view(self, clear):
+        #wyświetlenie kalendarza (docelowo), domyślnie widok dzienny. Możliwośc dodawania zadań wybranego dnia.
         clear()
         print("\nCo chcesz wyświetlić?  (liczba + enter)")
         print("1. Chcę zobaczyć zadania na dziś")
@@ -128,7 +135,7 @@ class ParentInterface:
         print("+---------------------------------")
         print("\nWybierz aktywność:  (liczba + enter)")
         print("0. Wróć do poprzedniego ekranu")
-        print("1. Zaplanuj wydarzenie")
+        print("1. Zaplanuj zadanie")
         print("2. Przejdź do widoku miesiąca")
         menu_option = -1
         while menu_option not in range(0, 3):
@@ -150,6 +157,7 @@ class ParentInterface:
                 return
 
     def module_library(self, clear):
+        # ekran biblioteki schematów zadań, dostępny kreator i edycja zadań w bibliotece
         clear()
         print("<< Wciśnij 0 by wrócić\n")
         print("Witaj w bibliotece zadań!\nTutaj możesz tworzyć i edytować zadania.")
@@ -175,6 +183,7 @@ class ParentInterface:
                 return
 
     def program_loop(self):
+        # główna pętla sterująca programu
         exit_program = True
         clear = lambda: os.system('cls')
         while exit_program is True:
@@ -215,12 +224,15 @@ class ParentInterface:
 
 
 class ChildInterface:
+    # interfejs dziecka - prostszy, zawierający bardzo ograniczone funkcje
     def __init__(self, available_modules: list, available_awards: list):
         self.schedule = Schedule(available_awards)
         self.available_modules = available_modules
         self.available_awards = available_awards
 
     def enter_task(self, clear, today, first_task=True, nav=0):
+        # wejście do zadania i rozpoczęcie postępu. Funkcja rekurencyjna do nawigacji
+        # i oznaczania postępu (czynność po czynności jest odhaczana jako wykonana)
         clear()
         assigned_module_entered = self.schedule.schedule_dict[today][self.schedule.current_module]
         task_name = assigned_module_entered.module.tasks_list[nav].name
@@ -263,8 +275,8 @@ class ChildInterface:
                 reprint = self.enter_task(clear, today, False, nav + 1)
                 # wyswietlenie next karty bez progresu
 
-
     def program_loop(self):
+        # główna pętla sterująca programu
         exit_program = True
         clear = lambda: os.system('cls')
         while exit_program is True:
@@ -274,8 +286,8 @@ class ChildInterface:
             today = datetime.date.today()
             self.schedule.show_tasks_from_date(today)
             print("+---------------------------------")
-            print("\n//do celów testowych: wprowadź 0 by zakończyć, 1 by wejść w zadanie.")
-            print("Docelowy interfejs umożliwia wejście jedynie w obszar trofeów i w aktualne zadanie.")
+            print("\n//do celów testowych: wprowadź 0 by zakończyć, 1 by wejść w zadanie, 2 by wejść w trofea.")
+            print("Docelowy interfejs również umożliwia wejście jedynie w obszar trofeów i w aktualne zadanie.")
             menu_option = -1
             while menu_option not in range(0, 3):
                 menu_option = input_number(">> ")
@@ -287,3 +299,13 @@ class ChildInterface:
                     input("\nNaciśnij dowolny klawisz by wrócić.")
                 elif menu_option == 1 and self.schedule.current_module == None:
                     print("Nie masz dziś do wykonania więcej zadań :)")
+                elif menu_option == 2:
+                    clear()
+                    print("Oto Twoje zdobyte nagrody!\n\n(W tym miejscu w aplikacji zostaną wyświetlone naklejki,\n")
+                    done_modules = self.schedule.get_done_modules()
+                    for date in done_modules.keys():
+                        print(date.strftime("%d/%m/%Y"))
+                        for as_module in done_modules[date]:
+                            print(" - ", as_module.module.name, ": ", as_module.award.name, sep="")
+                    input("\nNaciśnij dowolny klawisz by wrócić.")
+                    clear()

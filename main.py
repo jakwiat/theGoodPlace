@@ -8,10 +8,10 @@ from interfaces import ParentInterface, ChildInterface
 
 if __name__ == "__main__":
 
-    # create default awards
+    # tworzenie domyślnych nagród
     award_list = [Award("Złoty medal."), Award("Świetna robota!"), Award("Brawo :)"), Award("Oby tak dalej")]
 
-    # create default modules
+    # tworzenie domyślnych zadań do biblioteki
     lazienka = Task("Idę do łazienki.")
     wez = Task("Wyciągam szczoteczkę i pastę.")
     naloz = Task("Nakładam pastę na szczoteczkę.")
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     default_modules_list.append(
         Module([lista, buty_on, kurtka_on, klucz, drzwi, sklep, kupuje, place, wracam, kurtka_off, buty_off],
                "Wyjście do sklepu", "image_url", "DEMO: Podstawowe zadanie wyjścia do sklepu."))
-
+    # tworzenie przykłądowego planu
     Przyklad = Schedule(award_list)
     Przyklad.add_module(datetime.date(2021, 1, 17), default_modules_list[0], 1)
     Przyklad.add_module(datetime.date(2022, 5, 17), default_modules_list[1], 1)
@@ -74,11 +74,11 @@ if __name__ == "__main__":
     Przyklad.add_module(datetime.date(2021, 1, 17), default_modules_list[4], 1)
     Przyklad.add_module(datetime.date(2021, 1, 19), default_modules_list[4], 1)
 
-
+    # wykonanie pierwszego modułu w celach demonstracyjnych
     for i in range(11):
         Przyklad.make_progress()
 
-    # start of app
+    # start aplikacji
     print("Witaj w aplikacji Codzienne Wyzwania! Mamy nadzieję, że masz się dobrze :)")
     print()
     print("Czy aplikacja ma przyjąć tryb dziecka (d) czy rodzica (r)?")
