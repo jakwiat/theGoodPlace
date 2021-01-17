@@ -72,6 +72,8 @@ if __name__ == "__main__":
     Przyklad.add_module(datetime.date(2021, 7, 17), default_modules_list[2], 1)
     Przyklad.add_module(datetime.date(2021, 1, 17), default_modules_list[3], 2)
     Przyklad.add_module(datetime.date(2021, 1, 17), default_modules_list[4], 1)
+    Przyklad.add_module(datetime.date(2021, 1, 19), default_modules_list[4], 1)
+
 
     for i in range(11):
         Przyklad.make_progress()
