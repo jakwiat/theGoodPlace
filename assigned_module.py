@@ -13,6 +13,11 @@ class AssignedModule:
     def print_module(self):
         self.module.print_module()
 
+    def print_module_child(self, param=""):
+        print("+---------------------------------")
+        print("|\n|  " + param + " " + self.module.name)
+        print("|")
+
     def make_progress(self):
         self.which_task_to_do += 1
         if self.which_task_to_do == self.how_many_tasks:

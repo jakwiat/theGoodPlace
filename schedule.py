@@ -36,9 +36,7 @@ class Schedule:
         for date in time_list:
             if date.day == requested_date.day and date.month == requested_date.month and date.year == requested_date.year:
                 for task in range(len(self.schedule_dict[date])):
-                    date_string = date.strftime("%d/%m/%Y")
-                    print(date_string, task + 1, sep="  -  ", end=". ")
-                    self.schedule_dict[date][task].print_module()
+                    self.schedule_dict[date][task].print_module_child(str(task + 1) + ".")
                 return
 
     def show_tasks_from_month(self, requested_date: datetime.date):
