@@ -1,5 +1,5 @@
 class Task:
-    def __init__(self, name, image=None, description=None):
+    def __init__(self, name, image="<obrazek>", description="<opis>"):
         self.name = name
         self.image = image
         self.description = description
