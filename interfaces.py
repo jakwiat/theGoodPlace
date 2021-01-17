@@ -29,7 +29,6 @@ class ParentInterface:
         counter -= 1
         self.schedule.add_module(chosen_date, self.available_modules[counter], order)
         return
-        # TODO Cancelling event
 
     def calendar_view(self, clear):
         clear()
@@ -38,11 +37,11 @@ class ParentInterface:
         print("2. Chcę samemu wybrać datę")
         chosen_date = None
         menu_option = -1
-        while menu_option not in range(0, 3):
-            menu_option = input(">> ")
-            if menu_option == "1":
+        while menu_option not in range(1, 3):
+            menu_option = int(input(">> "))
+            if menu_option == 1:
                 chosen_date = datetime.date.today()
-            if menu_option == "2":
+            if menu_option == 2:
                 clear()
                 day = int(input("Podaj dzień: "))
                 month = int(input("Podaj miesiąc: "))
@@ -51,7 +50,7 @@ class ParentInterface:
         clear()
         print("<< Wciśnij 0 by wrócić\n")
         print("Oto Twój kalendarz! :)\nOto zadania zaplanowane na dziś:\n")
-        print("\n" + chosen_date.strftime("%d/%m/%Y %H:%M"))
+        print("\n" + chosen_date.strftime("%d/%m/%Y"))
         self.schedule.show_tasks_from_date(chosen_date)
         print("\nWybierz aktywność:  (liczba + enter)")
         print("1. Zaplanuj wydarzenie")
@@ -61,7 +60,7 @@ class ParentInterface:
             menu_option = int(input(">> "))
             if menu_option == 1:
                 order = 0
-                length_l = len(self.schedule.schedule_dict[chosen_date])
+                length_l = len(self.schedule.schedule_dict[chosen_date]) if chosen_date in self.schedule.schedule_dict else 0
                 if length_l < 1:
                     order = 1
                 while order not in range(1, length_l + 2):
