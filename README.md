@@ -18,3 +18,4 @@ Każde zadanie, krok i nagroda mają docelowo przypisane media - obrazek, w pó�
 Dane techniczne:
 - Python 3.7
 - wykorzystane biblioteki: datetime, os, random
+- aplikacja kompatybilna z systemem Windows OS
