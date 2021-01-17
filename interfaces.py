@@ -24,8 +24,8 @@ class ParentInterface:
             if counter == 0:
                 return
             else:
-                counter = int(input("\nPamiętaj, że nowe zadania możesz tworzyć w bibliiotece zadań.\nWybierz numer od "
-                                  "1 do" + str(len(self.available_modules)) + ": "))
+                counter = int(input("\nPamiętaj, że nowe zadania możesz tworzyć w bibliotece zadań.\nWybierz numer od "
+                                  "1 do " + str(len(self.available_modules)) + ": "))
         counter -= 1
         self.schedule.add_module(chosen_date, self.available_modules[counter], order)
         return
@@ -64,7 +64,7 @@ class ParentInterface:
                 if length_l < 1:
                     order = 1
                 while order not in range(1, length_l + 2):
-                    order = int(input("Podaj, na którym miejscu ma pojawić się nowe zadanie (od 1 do" + str(length_l) + ": "))
+                    order = int(input("Podaj, na którym miejscu ma pojawić się nowe zadanie (od 1 do " + str(length_l) + ": "))
                 self.create_module_view(clear, chosen_date, order)
                 return
             if menu_option == 2:
