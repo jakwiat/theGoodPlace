@@ -36,16 +36,18 @@ class ParentInterface:
         print("\nCo chcesz wyświetlić?  (liczba + enter)")
         print("1. Chcę zobaczyć zadania na dziś")
         print("2. Chcę samemu wybrać datę")
-        menu_option = input(">> ")
         chosen_date = None
-        if menu_option == "1":
-            chosen_date = datetime.datetime.now()
-        if menu_option == "2":
-            clear()
-            day = int(input("Podaj dzień: "))
-            month = int(input("Podaj miesiąc: "))
-            year = int(input("Podaj rok: "))
-            chosen_date = datetime.datetime(year, month, day)
+        menu_option = -1
+        while menu_option not in range(0, 3):
+            menu_option = input(">> ")
+            if menu_option == "1":
+                chosen_date = datetime.date.today()
+            if menu_option == "2":
+                clear()
+                day = int(input("Podaj dzień: "))
+                month = int(input("Podaj miesiąc: "))
+                year = int(input("Podaj rok: "))
+                chosen_date = datetime.date(year, month, day)
         clear()
         print("<< Wciśnij 0 by wrócić\n")
         print("Oto Twój kalendarz! :)\nOto zadania zaplanowane na dziś:\n")
@@ -54,21 +56,22 @@ class ParentInterface:
         print("\nWybierz aktywność:  (liczba + enter)")
         print("1. Zaplanuj wydarzenie")
         print("2. Przejdź do widoku miesiąca")
-        menu_option = int(input(">> "))
-        if menu_option == 1:
-            order = 0
-            length_l = len(self.schedule.schedule_dict[chosen_date])
-            if length_l < 1:
-                order = 1
-            while order not in range(1, length_l + 2):
-                order = int(input("Podaj, na którym miejscu ma pojawić się nowe zadanie (od 1 do" + str(length_l) + ": "))
-            self.create_module_view(clear, chosen_date, order)
-            return
-        if menu_option == 2:
-            pass # TODO
-        if menu_option == 0:
-            return
-
+        menu_option = -1
+        while menu_option not in range(0, 3):
+            menu_option = int(input(">> "))
+            if menu_option == 1:
+                order = 0
+                length_l = len(self.schedule.schedule_dict[chosen_date])
+                if length_l < 1:
+                    order = 1
+                while order not in range(1, length_l + 2):
+                    order = int(input("Podaj, na którym miejscu ma pojawić się nowe zadanie (od 1 do" + str(length_l) + ": "))
+                self.create_module_view(clear, chosen_date, order)
+                return
+            if menu_option == 2:
+                pass # TODO
+            if menu_option == 0:
+                return
 
     def module_library(self, clear):
         clear()
@@ -81,19 +84,20 @@ class ParentInterface:
         print("1. Edytuj zadanie")
         print("2. Dodaj zadanie")
         print("3. Usuń zadanie")
-        menu_option = int(input(">> "))
-        if menu_option == 1:
-            # TODO edycja
-            pass
-        if menu_option == 2:
-            # TODO dodanie
-            pass
-        if menu_option == 3:
-            # TODO usuwanie
-            pass
-        if menu_option == 0:
-            return
-
+        menu_option = -1
+        while menu_option not in range(0, 4):
+            menu_option = int(input(">> "))
+            if menu_option == 1:
+                # TODO edycja
+                pass
+            if menu_option == 2:
+                # TODO dodanie
+                pass
+            if menu_option == 3:
+                # TODO usuwanie
+                pass
+            if menu_option == 0:
+                return
 
     def program_loop(self):
         exit_program = True
