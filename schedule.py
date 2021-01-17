@@ -44,10 +44,11 @@ class Schedule:
         time_list.sort()
         for date in time_list:
             if date.month == requested_date.month and date.year == requested_date.year:
+                print(date.strftime("%d/%m/%Y") + "")
                 for task in range(len(self.schedule_dict[date])):
-                    date_string = date.strftime("%d/%m/%Y")
-                    print(date_string, task + 1, sep="  -  ", end=". ")
-                    self.schedule_dict[date][task].print_module()
+                    self.schedule_dict[date][task].print_module_child(str(task + 1) + ".")
+                print("+---------------------------------\n")
+
 
     def make_progress(self):
         if self.current_module is not None:

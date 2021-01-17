@@ -122,7 +122,9 @@ class ParentInterface:
                 self.create_assigned_module_view(clear, chosen_date, order)
                 return
             if menu_option == 2:
-                pass  # TODO
+                self.schedule.show_tasks_from_month(chosen_date)
+                input("\nNaciśnij dowolny klawisz by wrócić.")
+                pass  # TODO widok miesiąca
             if menu_option == 0:
                 return
 
@@ -181,6 +183,10 @@ class ParentInterface:
                 print("Oto hub podsumowujący.\n\n(W tym miejscu w aplikacji zostaną wyświetlone statystyki,\n"
                       "podsumowanie postępów, zdobyte nagrody i skończone zadania.)")
                 done_modules = self.schedule.get_done_modules()
+                for date in done_modules.keys():
+                    print(date.strftime("%d/%m/%Y"))
+                    for as_module in done_modules[date]:
+                        print(" - ", as_module.module.name, ": ", as_module.award.name, sep="")
                 input("\nNaciśnij dowolny klawisz by wrócić.")
                 clear()
             if menu_option == 0:
