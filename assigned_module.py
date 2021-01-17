@@ -1,4 +1,5 @@
 from module import Module
+from award import Award
 
 
 class AssignedModule:
@@ -7,6 +8,7 @@ class AssignedModule:
         self.how_many_tasks = len(module.tasks_list)
         self.which_task_to_do = 0
         self.is_done = False
+        self.award = None
 
     def print_module(self):
         self.module.print_module()

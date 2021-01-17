@@ -1,13 +1,16 @@
 import datetime
+import random
 from module import Module
 from assigned_module import AssignedModule
+from award import Award
 
 
 class Schedule:
-    def __init__(self):
+    def __init__(self, awards_list: list = None):
         self.schedule_dict = {}
         self.today = datetime.datetime.now()
         self.current_task_key = None
+        self.awards_list = awards_list if awards_list is not None else [Award("Order 1"), Award("Order 2")]
 
     def add_module(self, date: datetime.datetime, module: Module, place: int):
         if date in self.schedule_dict:
@@ -52,6 +55,7 @@ class Schedule:
         if self.current_task_key is not None:
             is_done = self.schedule_dict[self.today][self.current_task_key].make_progress()
             if is_done is True:
+                self.schedule_dict[self.today][self.current_task_key].award = random.choice(self.awards_list)
                 if self.current_task_key + 1 < len(self.schedule_dict[self.today]):
                     self.current_task_key += 1
                 else:
