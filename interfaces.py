@@ -124,7 +124,6 @@ class ParentInterface:
             if menu_option == 2:
                 self.schedule.show_tasks_from_month(chosen_date)
                 input("\nNaciśnij dowolny klawisz by wrócić.")
-                pass  # TODO widok miesiąca
             if menu_option == 0:
                 return
 
