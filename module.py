@@ -10,3 +10,8 @@ class Module(Task):
         print(self.name, self.image, self.description, sep="; ")
         for task in self.tasks_list:
             print(" - ", task.stringify_task())
+
+    def print_module_child(self, param=""):
+        print("\n+---------------------------------")
+        print("|\n|  " + param + " " + self.name)
+        print("|")
