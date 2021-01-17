@@ -281,8 +281,9 @@ class ChildInterface:
                 menu_option = input_number(">> ")
                 if menu_option == 0:
                     exit_program = False
-                if menu_option == 1:
+                elif menu_option == 1 and self.schedule.current_module != None:
                     self.enter_task(clear, today)
                     print("Gratulacje! Zadanie wykonane!")
                     input("\nNaciśnij dowolny klawisz by wrócić.")
-
+                elif menu_option == 1 and self.schedule.current_module == None:
+                    print("Nie masz dziś do wykonania więcej zadań :)")
