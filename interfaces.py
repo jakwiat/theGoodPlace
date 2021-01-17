@@ -233,13 +233,13 @@ class ChildInterface:
     def enter_task(self, clear, today, first_task=True, nav=0):
         # wejście do zadania i rozpoczęcie postępu. Funkcja rekurencyjna do nawigacji
         # i oznaczania postępu (czynność po czynności jest odhaczana jako wykonana)
-        clear()
         assigned_module_entered = self.schedule.schedule_dict[today][self.schedule.current_module]
         task_name = assigned_module_entered.module.tasks_list[nav].name
         task_img_url = assigned_module_entered.module.tasks_list[nav].image
         task_done = False
         reprint = True
         while reprint:
+            clear()
             if nav < assigned_module_entered.which_task_to_do:
                 task_done = True
             if task_done:
