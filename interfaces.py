@@ -7,9 +7,10 @@ import os
 
 # TODO secure inputs from warnings
 class ParentInterface:
-    def __init__(self, available_modules: list):
-        self.schedule = Schedule()
+    def __init__(self, available_modules: list, available_awards: list):
+        self.schedule = Schedule(available_awards)
         self.available_modules = available_modules
+        self.available_awards = available_awards
 
     def edit_module(self):
         print("Jakie zadanie chcesz edytować? (podaj numer od 1 do " + str(len(self.available_modules)) + ")")
@@ -168,7 +169,9 @@ class ParentInterface:
                 clear()
                 print(
                     "Oto Twój zbiór naklejek.\n\n(W tym miejscu w aplikacji zostaną wyświetlone\nfoldery z naklejkami, "
-                    "które mogą zdobywać podopieczni")
+                    "które mogą zdobywać podopieczni)\n")
+                for award in self.available_awards:
+                    print(award.name, award.image)
                 input("\nNaciśnij dowolny klawisz by wrócić.")
                 clear()
             if menu_option == 3:
@@ -177,6 +180,7 @@ class ParentInterface:
                 clear()
                 print("Oto hub podsumowujący.\n\n(W tym miejscu w aplikacji zostaną wyświetlone statystyki,\n"
                       "podsumowanie postępów, zdobyte nagrody i skończone zadania.)")
+                done_modules = self.schedule.get_done_modules()
                 input("\nNaciśnij dowolny klawisz by wrócić.")
                 clear()
             if menu_option == 0:
@@ -184,9 +188,10 @@ class ParentInterface:
 
 
 class ChildInterface:
-    def __init__(self, available_modules: list):
-        self.schedule = Schedule()
+    def __init__(self, available_modules: list, available_awards: list):
+        self.schedule = Schedule(available_awards)
         self.available_modules = available_modules
+        self.available_awards = available_awards
 
     def program_loop(self):
         exit_program = True
