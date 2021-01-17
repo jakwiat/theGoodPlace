@@ -95,7 +95,7 @@ if __name__ == "__main__":
                "Ścielę łóżko", "image_url", "DEMO: Podstawowe zadanie ścielenia łóżka."))
 
     # start of app
-    print("Witaj w aplikacji XYZ! Mamy nadzieję, że masz się dobrze :)")
+    print("Witaj w aplikacji Codzienne Wyzwania! Mamy nadzieję, że masz się dobrze :)")
     print()
     print("Czy aplikacja ma przyjąć tryb dziecka (d) czy rodzica (r)?")
     user = input(">> ")
